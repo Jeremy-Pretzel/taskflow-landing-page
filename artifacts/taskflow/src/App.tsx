@@ -67,7 +67,7 @@ function Home() {
           </div>
           <div className="relative max-w-[760px]">
             <div>
-              <p className="eyebrow-line reveal mono-font mb-7 text-[10px] font-bold uppercase tracking-[0.22em] text-secondary" data-testid="text-hero-eyebrow">A clearer week starts here</p>
+              <p className="eyebrow-line reveal mono-font mb-7 text-[10px] font-bold uppercase tracking-[0.22em] text-accent" data-testid="text-hero-eyebrow">A clearer week starts here</p>
               <h1 id="hero-heading" className="display-font reveal reveal-delay-1 max-w-[720px] text-[3.7rem] font-semibold leading-[0.94] text-primary sm:text-[5.4rem] lg:text-[6.25rem]" data-testid="text-hero-heading">
                 Project management <span className="relative inline-block text-accent">made simple<span className="absolute -bottom-1 left-0 h-2 w-full -rotate-2 rounded-[50%] border-b-2 border-accent/60 sm:bottom-1" /></span>
               </h1>
@@ -130,7 +130,7 @@ function Home() {
                         { icon: CalendarDays, label: 'Calendar', active: false },
                         { icon: Users, label: 'Team', active: false },
                       ].map(({ icon: Icon, label, active }, index) => (
-                        <div key={label} className={`flex items-center justify-center gap-2 rounded-lg px-1.5 py-2 sm:justify-start sm:px-2.5 ${active ? 'bg-background/10 text-secondary' : 'text-background/50'}`} data-testid={`dashboard-nav-${index}`}>
+                        <div key={label} className={`flex items-center justify-center gap-2 rounded-lg px-1.5 py-2 sm:justify-start sm:px-2.5 ${active ? 'bg-background/10 text-accent' : 'text-background/50'}`} data-testid={`dashboard-nav-${index}`}>
                           <Icon className="h-3.5 w-3.5 shrink-0" />
                           <span className="hidden text-[9px] font-semibold sm:block">{label}</span>
                         </div>
@@ -185,7 +185,7 @@ function Home() {
         <section id="features" className="mx-auto max-w-[1240px] px-5 py-24 sm:px-8 sm:py-32" aria-labelledby="features-heading">
           <div className="mb-12 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
             <div>
-              <p className="eyebrow-line mono-font text-[10px] font-bold uppercase tracking-[0.22em] text-secondary">Everything in its place</p>
+              <p className="eyebrow-line mono-font text-[10px] font-bold uppercase tracking-[0.22em] text-accent">Everything in its place</p>
               <h2 id="features-heading" className="display-font mt-5 text-[2.8rem] font-semibold leading-none text-primary sm:text-[4.25rem]" data-testid="text-features-heading">A simple rhythm for<br /><span className="text-accent">good work.</span></h2>
             </div>
             <p className="max-w-[280px] text-sm leading-6 text-muted-foreground sm:pb-1">The essentials for a focused team, thoughtfully kept in one workspace.</p>
@@ -211,7 +211,7 @@ function Home() {
         <section className="mx-auto max-w-[1240px] px-5 py-24 sm:px-8 sm:py-32" aria-labelledby="closing-heading">
           <div className="cta-panel relative overflow-hidden rounded-[26px] px-6 py-14 text-background sm:px-14 sm:py-20 lg:px-20">
             <div className="relative z-10 max-w-[650px]">
-              <p className="eyebrow-line mono-font text-[10px] font-bold uppercase tracking-[0.22em] text-secondary">Your next good week</p>
+              <p className="eyebrow-line mono-font text-[10px] font-bold uppercase tracking-[0.22em] text-accent">Your next good week</p>
               <h2 id="closing-heading" className="display-font mt-5 text-[3rem] font-semibold leading-[0.94] sm:text-[5rem]" data-testid="text-closing-heading">Put the plan<br />in motion.</h2>
               <p className="mt-6 max-w-[430px] text-sm leading-6 text-background/65 sm:text-base">TaskFlow — Project management for small teams</p>
               <Link href="/signup" className="group mt-9 inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-sm font-extrabold text-primary transition-all hover:-translate-y-1 hover:shadow-[0_10px_0_hsl(var(--secondary)/.2)]" data-testid="link-closing-trial">Start Your Free Trial <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></Link>
