@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { useState, type FormEvent, type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -49,7 +49,7 @@ function Home() {
             <span className="text-[17px] font-extrabold tracking-[-0.04em]">TaskFlow</span>
           </a>
           <Link
-            href="/thank-you"
+            href="/signup"
             className="group inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-[12px] font-bold text-background transition-all hover:-translate-y-0.5 hover:bg-primary/90"
             data-testid="link-nav-trial"
           >
@@ -76,7 +76,7 @@ function Home() {
               </p>
               <div className="reveal reveal-delay-3 mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
                 <Link
-                  href="/thank-you"
+                  href="/signup"
                   className="group inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-sm font-extrabold text-primary shadow-[0_8px_0_hsl(var(--accent)/.25)] transition-all hover:-translate-y-1 hover:shadow-[0_11px_0_hsl(var(--accent)/.25)] active:translate-y-0 active:shadow-[0_4px_0_hsl(var(--accent)/.25)]"
                   data-testid="link-hero-trial"
                 >
@@ -214,7 +214,7 @@ function Home() {
               <p className="eyebrow-line mono-font text-[10px] font-bold uppercase tracking-[0.22em] text-secondary">Your next good week</p>
               <h2 id="closing-heading" className="display-font mt-5 text-[3rem] font-semibold leading-[0.94] sm:text-[5rem]" data-testid="text-closing-heading">Put the plan<br />in motion.</h2>
               <p className="mt-6 max-w-[430px] text-sm leading-6 text-background/65 sm:text-base">TaskFlow — Project management for small teams</p>
-              <Link href="/thank-you" className="group mt-9 inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-sm font-extrabold text-primary transition-all hover:-translate-y-1 hover:shadow-[0_10px_0_hsl(var(--secondary)/.2)]" data-testid="link-closing-trial">Start Your Free Trial <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></Link>
+              <Link href="/signup" className="group mt-9 inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-sm font-extrabold text-primary transition-all hover:-translate-y-1 hover:shadow-[0_10px_0_hsl(var(--secondary)/.2)]" data-testid="link-closing-trial">Start Your Free Trial <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></Link>
             </div>
             <div className="absolute bottom-8 right-8 hidden rotate-[-9deg] rounded-2xl border border-background/15 bg-background/10 p-4 backdrop-blur-md lg:block">
               <div className="mb-3 flex items-center gap-2 text-secondary"><Layers3 className="h-4 w-4" /><span className="mono-font text-[9px] font-bold uppercase tracking-wider">In sync</span></div>
@@ -226,6 +226,110 @@ function Home() {
         </section>
       </main>
 
+    </div>
+  );
+}
+
+function Signup() {
+  const [, setLocation] = useLocation();
+  const [formError, setFormError] = useState('');
+
+  const submitSignup = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const name = String(formData.get('name') ?? '').trim();
+    const email = String(formData.get('email') ?? '').trim();
+
+    if (!name || !email) {
+      setFormError('Please enter your name and email address.');
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setFormError('Please enter a valid email address.');
+      return;
+    }
+
+    setLocation('/thank-you');
+  };
+
+  return (
+    <div className="taskflow-page grain min-h-[100dvh] text-foreground">
+      <header className="site-nav fixed inset-x-0 top-0 z-30 border-b border-border/50" data-testid="signup-header">
+        <div className="mx-auto flex h-[76px] max-w-[1240px] items-center px-5 sm:px-8">
+          <Link href="/" className="group flex items-center gap-2.5" data-testid="link-signup-logo" aria-label="Return to TaskFlow home">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-[11px] bg-primary text-background shadow-[4px_4px_0_hsl(var(--secondary)/.85)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[5px_5px_0_hsl(var(--secondary)/.85)]">
+              <Check className="h-[19px] w-[19px] stroke-[3]" />
+            </span>
+            <span className="text-[17px] font-extrabold tracking-[-0.04em]">TaskFlow</span>
+          </Link>
+        </div>
+      </header>
+
+      <main className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden px-5 pb-16 pt-32 sm:px-8">
+        <div className="pointer-events-none absolute right-[-9rem] top-[8rem] h-[30rem] w-[30rem] rounded-full border border-secondary/20 sm:right-[-5rem]">
+          <div className="absolute inset-8 rounded-full border border-secondary/10" />
+          <div className="absolute inset-20 rounded-full bg-secondary/10 blur-3xl" />
+        </div>
+        <section className="relative w-full max-w-[620px]" aria-labelledby="signup-heading">
+          <div className="mb-8 text-center">
+            <p className="eyebrow-line mono-font reveal text-[10px] font-bold uppercase tracking-[0.22em] text-secondary" data-testid="text-signup-eyebrow">TaskFlow / Start your trial</p>
+            <h1 id="signup-heading" className="display-font reveal reveal-delay-1 mt-6 text-[3.5rem] font-semibold leading-[0.94] text-primary sm:text-[5.5rem]" data-testid="text-signup-heading">Start your free trial.</h1>
+            <p className="reveal reveal-delay-2 mx-auto mt-5 max-w-[430px] text-[16px] leading-7 text-muted-foreground sm:text-[18px]" data-testid="text-signup-description">Bring your team's next project into one simple workspace.</p>
+          </div>
+
+          <form
+            onSubmit={submitSignup}
+            noValidate
+            className="reveal reveal-delay-3 rounded-[24px] border border-border bg-card p-6 shadow-[0_18px_60px_hsl(var(--primary)/.08)] sm:p-8"
+            data-testid="signup-form"
+          >
+            <div className="grid gap-5 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-2 block text-[11px] font-bold text-primary">Name</span>
+                <input
+                  required
+                  name="name"
+                  type="text"
+                  autoComplete="name"
+                  placeholder="Your name"
+                  className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm text-primary outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                  data-testid="input-signup-name"
+                />
+              </label>
+              <label className="block">
+                <span className="mb-2 block text-[11px] font-bold text-primary">Email address</span>
+                <input
+                  required
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  placeholder="you@yourteam.com"
+                  className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm text-primary outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                  data-testid="input-signup-email"
+                />
+              </label>
+            </div>
+            <label className="mt-5 block">
+              <span className="mb-2 block text-[11px] font-bold text-primary">Company name <span className="font-medium text-muted-foreground">(optional)</span></span>
+              <input
+                name="company"
+                type="text"
+                autoComplete="organization"
+                placeholder="Your company"
+                className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm text-primary outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                data-testid="input-signup-company"
+              />
+            </label>
+            {formError && <p className="mt-4 text-sm font-semibold text-accent-foreground" role="alert" data-testid="signup-error">{formError}</p>}
+            <button type="submit" className="group mt-7 flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-accent text-sm font-extrabold text-primary transition-all hover:-translate-y-0.5 hover:shadow-[0_6px_0_hsl(var(--accent)/.25)] active:translate-y-0" data-testid="button-submit-signup">
+              Start Free Trial
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </button>
+            <p className="mt-4 text-center text-[11px] font-semibold text-muted-foreground">No credit card needed.</p>
+          </form>
+        </section>
+      </main>
     </div>
   );
 }
@@ -283,6 +387,7 @@ function Router() {
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/signup" component={Signup} />
         <Route path="/thank-you" component={ThankYou} />
         <Route component={NotFound} />
       </Switch>
