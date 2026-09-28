@@ -369,15 +369,15 @@ function ThankYou() {
 }
 
 function secondaryColor() {
-  return 'hsl(159 49% 47%)';
+  return 'hsl(210 12% 60%)';
 }
 
 function accentColor() {
-  return 'hsl(14 70% 63%)';
+  return 'hsl(24 88% 58%)';
 }
 
 function primaryColor() {
-  return 'hsl(177 27% 17%)';
+  return 'hsl(214 22% 17%)';
 }
 
 function Router() {
