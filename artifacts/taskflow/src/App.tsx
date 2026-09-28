@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
+import { useState, type FormEvent, type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -16,12 +16,8 @@ import {
   Layers3,
   LayoutDashboard,
   ListChecks,
-  Menu,
-  MoreHorizontal,
-  MoveRight,
   Plus,
   Sparkles,
-  Target,
   Users,
   X,
 } from 'lucide-react';
@@ -35,22 +31,12 @@ import {
 const queryClient = new QueryClient();
 
 function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [trialOpen, setTrialOpen] = useState(false);
   const [trialSubmitted, setTrialSubmitted] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 18);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   const openTrial = () => {
     setTrialSubmitted(false);
     setTrialOpen(true);
-    setMobileMenuOpen(false);
   };
 
   const submitTrial = (event: FormEvent<HTMLFormElement>) => {
@@ -61,9 +47,7 @@ function Home() {
   return (
     <div className="taskflow-page grain min-h-[100dvh] text-foreground">
       <header
-        className={`site-nav fixed inset-x-0 top-0 z-30 border-b border-transparent ${
-          scrolled ? 'scrolled border-border/60' : ''
-        }`}
+        className="site-nav fixed inset-x-0 top-0 z-30 border-b border-border/50"
         data-testid="site-header"
       >
         <div className="mx-auto flex h-[76px] max-w-[1240px] items-center justify-between px-5 sm:px-8">
@@ -78,73 +62,28 @@ function Home() {
             </span>
             <span className="text-[17px] font-extrabold tracking-[-0.04em]">TaskFlow</span>
           </a>
-
-          <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
-            <a href="#why-taskflow" className="text-[13px] font-semibold text-muted-foreground transition-colors hover:text-foreground" data-testid="link-nav-why">Why TaskFlow</a>
-            <a href="#features" className="text-[13px] font-semibold text-muted-foreground transition-colors hover:text-foreground" data-testid="link-nav-features">Features</a>
-            <a href="#workflow" className="text-[13px] font-semibold text-muted-foreground transition-colors hover:text-foreground" data-testid="link-nav-workflow">How it works</a>
-          </nav>
-
-          <div className="hidden items-center gap-5 md:flex">
-            <a href="#footer" className="text-[13px] font-semibold text-muted-foreground transition-colors hover:text-foreground" data-testid="link-nav-contact">For small teams</a>
-            <button
-              type="button"
-              onClick={openTrial}
-              className="group inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-[12px] font-bold text-background transition-all hover:-translate-y-0.5 hover:bg-primary/90"
-              data-testid="button-nav-trial"
-            >
-              Start Your Free Trial
-              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </button>
-          </div>
-
           <button
             type="button"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground md:hidden"
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={mobileMenuOpen}
-            data-testid="button-mobile-menu"
+            onClick={openTrial}
+            className="group inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-[12px] font-bold text-background transition-all hover:-translate-y-0.5 hover:bg-primary/90"
+            data-testid="button-nav-trial"
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            Start Your Free Trial
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </button>
         </div>
-        {mobileMenuOpen && (
-          <div className="border-t border-border/70 bg-background/95 px-5 pb-5 pt-3 backdrop-blur-xl md:hidden" data-testid="mobile-navigation">
-            <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
-              {[
-                ['Why TaskFlow', '#why-taskflow'],
-                ['Features', '#features'],
-                ['How it works', '#workflow'],
-              ].map(([label, href]) => (
-                <a
-                  key={href}
-                  href={href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="rounded-xl px-3 py-3 text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-foreground"
-                  data-testid={`link-mobile-${label.toLowerCase().replaceAll(' ', '-')}`}
-                >
-                  {label}
-                </a>
-              ))}
-              <button type="button" onClick={openTrial} className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-background" data-testid="button-mobile-trial">
-                Start Your Free Trial <ArrowUpRight className="h-4 w-4" />
-              </button>
-            </nav>
-          </div>
-        )}
       </header>
 
       <main id="top">
-        <section className="relative mx-auto max-w-[1240px] px-5 pb-24 pt-36 sm:px-8 sm:pb-32 sm:pt-44 lg:pt-48" aria-labelledby="hero-heading">
+        <section className="relative mx-auto max-w-[1240px] px-5 pb-20 pt-36 sm:px-8 sm:pb-24 sm:pt-44 lg:pt-48" aria-labelledby="hero-heading">
           <div className="pointer-events-none absolute right-[-6rem] top-24 h-[28rem] w-[28rem] rounded-full border border-secondary/20 sm:right-[-4rem]">
             <div className="absolute inset-8 rounded-full border border-secondary/10" />
             <div className="absolute inset-20 rounded-full bg-secondary/10 blur-3xl" />
           </div>
-          <div className="relative grid items-center gap-14 lg:grid-cols-[0.92fr_1.08fr] lg:gap-10">
-            <div className="max-w-[590px]">
+          <div className="relative max-w-[760px]">
+            <div>
               <p className="eyebrow-line reveal mono-font mb-7 text-[10px] font-bold uppercase tracking-[0.22em] text-secondary" data-testid="text-hero-eyebrow">A clearer week starts here</p>
-              <h1 id="hero-heading" className="display-font reveal reveal-delay-1 max-w-[620px] text-[3.7rem] font-semibold leading-[0.94] text-primary sm:text-[5.4rem] lg:text-[6.25rem]" data-testid="text-hero-heading">
+              <h1 id="hero-heading" className="display-font reveal reveal-delay-1 max-w-[720px] text-[3.7rem] font-semibold leading-[0.94] text-primary sm:text-[5.4rem] lg:text-[6.25rem]" data-testid="text-hero-heading">
                 Project management <span className="relative inline-block text-accent">made simple<span className="absolute -bottom-1 left-0 h-2 w-full -rotate-2 rounded-[50%] border-b-2 border-accent/60 sm:bottom-1" /></span>
               </h1>
               <p className="reveal reveal-delay-2 mt-7 max-w-[480px] text-[15px] leading-7 text-muted-foreground sm:text-[17px]" data-testid="text-hero-description">
@@ -160,10 +99,6 @@ function Home() {
                   Start Your Free Trial
                   <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </button>
-                <a href="#workflow" className="group inline-flex items-center gap-2 px-2 py-3 text-sm font-bold text-primary" data-testid="link-hero-workflow">
-                  See how it works
-                  <MoveRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </a>
               </div>
               <div className="reveal reveal-delay-4 mt-9 flex items-center gap-3 text-[11px] font-semibold text-muted-foreground" data-testid="text-trial-note">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-secondary/20 text-secondary"><Check className="h-3 w-3 stroke-[3]" /></span>
@@ -172,9 +107,19 @@ function Home() {
                 Set up in a few minutes
               </div>
             </div>
+          </div>
+        </section>
 
-            <div className="relative lg:pl-5">
-              <div className="hero-orb absolute -right-1 top-[-2rem] z-10 flex h-[74px] w-[74px] rotate-12 items-center justify-center rounded-[22px] bg-accent text-center shadow-[8px_8px_0_hsl(var(--primary)/.12)] sm:right-2 sm:top-[-2.5rem]" data-testid="badge-hero-focus">
+        <section id="product-preview" className="border-y border-border/80 bg-card/40" aria-labelledby="product-preview-heading">
+          <div className="mx-auto max-w-[1240px] px-5 py-16 sm:px-8 sm:py-24">
+            <div className="mb-10 flex items-end justify-between gap-6">
+              <div>
+                <p className="eyebrow-line mono-font text-[10px] font-bold uppercase tracking-[0.22em] text-accent">See TaskFlow in action</p>
+                <h2 id="product-preview-heading" className="display-font mt-4 max-w-[520px] text-[2.65rem] font-semibold leading-[0.98] text-primary sm:text-[4rem]" data-testid="text-product-preview-heading">A calm place for the work ahead.</h2>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="hero-orb absolute -right-1 top-[-2rem] z-10 flex h-[74px] w-[74px] rotate-12 items-center justify-center rounded-[22px] bg-accent text-center shadow-[8px_8px_0_hsl(var(--primary)/.12)] sm:right-2 sm:top-[-2.5rem]" data-testid="badge-product-focus">
                 <span className="display-font text-[15px] font-semibold leading-[0.95]">less<br />noise</span>
               </div>
               <div className="dashboard-shell relative overflow-hidden rounded-[22px] border border-primary/20 bg-card">
@@ -215,7 +160,7 @@ function Home() {
                   <div className="bg-background/65 p-4 sm:p-6">
                     <div className="mb-5 flex items-end justify-between">
                       <div><p className="mono-font mb-1 text-[8px] font-bold uppercase tracking-[0.13em] text-muted-foreground">Monday, 14 October</p><h2 className="display-font text-[24px] font-semibold text-primary sm:text-[29px]">Good morning, team.</h2></div>
-                      <button type="button" onClick={openTrial} className="hidden items-center gap-1 rounded-lg bg-primary px-2.5 py-2 text-[9px] font-bold text-background sm:flex" data-testid="button-dashboard-new-task"><Plus className="h-3 w-3" /> New task</button>
+                      <div className="hidden items-center gap-1 rounded-lg bg-primary px-2.5 py-2 text-[9px] font-bold text-background sm:flex" data-testid="dashboard-new-task"><Plus className="h-3 w-3" /> New task</div>
                     </div>
                     <div className="grid grid-cols-3 gap-2 sm:gap-3">
                       {[
@@ -231,7 +176,7 @@ function Home() {
                       ))}
                     </div>
                     <div className="mt-5 rounded-xl border border-border bg-card p-3.5 sm:p-4">
-                      <div className="mb-3 flex items-center justify-between"><span className="text-[10px] font-extrabold text-primary">This week's tasks</span><button type="button" onClick={() => document.querySelector('#features')?.scrollIntoView({ behavior: 'smooth' })} className="text-[9px] font-bold text-secondary" data-testid="button-dashboard-view-all">View all</button></div>
+                      <div className="mb-3"><span className="text-[10px] font-extrabold text-primary">This week's tasks</span></div>
                       <div className="space-y-1">
                         {[
                           ['Review launch notes', 'Today', 'done'],
@@ -248,23 +193,6 @@ function Home() {
                     </div>
                   </div>
                 </div>
-              </div>
-              <p className="mono-font mt-5 text-center text-[9px] font-bold uppercase tracking-[0.17em] text-muted-foreground">A calm place for the work ahead</p>
-            </div>
-          </div>
-        </section>
-
-        <section id="why-taskflow" className="border-y border-border/80 bg-card/40" aria-labelledby="why-heading">
-          <div className="mx-auto grid max-w-[1240px] gap-10 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
-            <div>
-              <p className="eyebrow-line mono-font text-[10px] font-bold uppercase tracking-[0.22em] text-accent">The better way to Monday</p>
-              <h2 id="why-heading" className="display-font mt-5 max-w-[430px] text-[2.65rem] font-semibold leading-[0.98] text-primary sm:text-[4rem]" data-testid="text-why-heading">Make room for the work that matters.</h2>
-            </div>
-            <div className="max-w-[580px] lg:pt-9">
-              <p className="text-[17px] leading-8 text-muted-foreground sm:text-[19px]">Small teams do their best work when the plan is visible and the next step is obvious. TaskFlow keeps the moving parts together, without turning your day into a dashboard.</p>
-              <div className="mt-9 flex items-center gap-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary/15 text-secondary"><Sparkles className="h-5 w-5" /></span>
-                <p className="text-sm font-bold leading-5 text-primary">One shared plan.<br /><span className="font-medium text-muted-foreground">A team that knows what comes next.</span></p>
               </div>
             </div>
           </div>
@@ -291,55 +219,8 @@ function Home() {
                 </div>
                 <h3 className="display-font text-[2rem] font-semibold text-primary">{title}</h3>
                 <p className="mt-3 max-w-[260px] text-sm leading-6 text-muted-foreground">{text}</p>
-                <div className="mt-8 flex items-center gap-2 text-[10px] font-bold text-primary opacity-0 transition-opacity duration-300 group-hover:opacity-100">Keep moving <ArrowUpRight className="h-3.5 w-3.5" /></div>
               </article>
             ))}
-          </div>
-        </section>
-
-        <section id="workflow" className="relative overflow-hidden bg-primary text-background" aria-labelledby="workflow-heading">
-          <div className="absolute -right-32 top-[-10rem] h-[34rem] w-[34rem] rounded-full border border-secondary/15" />
-          <div className="absolute -right-10 top-[-7.5rem] h-[29rem] w-[29rem] rounded-full border border-secondary/10" />
-          <div className="relative mx-auto grid max-w-[1240px] gap-14 px-5 py-24 sm:px-8 sm:py-32 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-24">
-            <div>
-              <p className="eyebrow-line mono-font text-[10px] font-bold uppercase tracking-[0.22em] text-secondary">A plan you can see</p>
-              <h2 id="workflow-heading" className="display-font mt-5 max-w-[450px] text-[3rem] font-semibold leading-[0.95] sm:text-[4.5rem]" data-testid="text-workflow-heading">Know the shape of your week.</h2>
-              <p className="mt-7 max-w-[410px] text-[15px] leading-7 text-background/65">From the first idea to the final checkmark, TaskFlow gives every project a clear place to land.</p>
-              <button type="button" onClick={openTrial} className="group mt-9 inline-flex items-center gap-2 rounded-full bg-secondary px-5 py-3 text-sm font-extrabold text-primary transition-all hover:-translate-y-1 hover:bg-secondary/90" data-testid="button-workflow-trial">Start Your Free Trial <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button>
-            </div>
-            <div className="relative">
-              <div className="float-soft rounded-[22px] border border-background/15 bg-background/[0.07] p-3 backdrop-blur-sm sm:p-4">
-                <div className="rounded-[16px] bg-background p-4 text-primary sm:p-5">
-                  <div className="mb-5 flex items-center justify-between border-b border-border pb-4">
-                    <div><p className="mono-font text-[8px] font-bold uppercase tracking-[0.15em] text-muted-foreground">Project view</p><h3 className="mt-1 text-sm font-extrabold">Website refresh</h3></div>
-                    <button type="button" onClick={openTrial} className="flex h-7 w-7 items-center justify-center rounded-lg border border-border text-muted-foreground hover:text-primary" aria-label="More project options" data-testid="button-project-options"><MoreHorizontal className="h-4 w-4" /></button>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
-                    {[
-                      { label: 'To do', color: 'bg-muted', tasks: [['Outline page', 'AM'], ['Gather notes', 'Tue']] },
-                      { label: 'In progress', color: 'bg-accent/70', tasks: [['Write copy', 'Today'], ['Review flow', 'Wed']] },
-                      { label: 'Done', color: 'bg-secondary', tasks: [['Set direction', 'Done'], ['Share plan', 'Done']] },
-                    ].map((column, columnIndex) => (
-                      <div key={column.label} data-testid={`workflow-column-${columnIndex}`}>
-                        <div className="mb-2 flex items-center gap-1.5"><span className={`h-1.5 w-1.5 rounded-full ${column.color}`} /><span className="text-[9px] font-extrabold">{column.label}</span><span className="ml-auto text-[8px] font-bold text-muted-foreground">2</span></div>
-                        <div className="space-y-2">
-                          {column.tasks.map(([task, date], taskIndex) => (
-                            <div key={task} className="rounded-xl border border-border bg-card p-2.5" data-testid={`workflow-task-${columnIndex}-${taskIndex}`}>
-                              <p className="text-[9px] font-bold leading-4">{task}</p>
-                              <p className="mt-2 flex items-center gap-1 text-[8px] font-semibold text-muted-foreground"><CalendarDays className="h-2.5 w-2.5" />{date}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-5 flex items-center justify-between rounded-xl bg-muted/65 px-3 py-2.5">
-                    <div className="flex items-center gap-2"><span className="flex h-6 w-6 items-center justify-center rounded-full bg-secondary/25 text-secondary"><Target className="h-3.5 w-3.5" /></span><span className="text-[9px] font-bold">Project progress</span></div>
-                    <div className="flex items-center gap-2"><div className="h-1.5 w-16 overflow-hidden rounded-full bg-border"><div className="h-full w-[68%] rounded-full bg-secondary" /></div><span className="mono-font text-[8px] font-bold">68%</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -360,17 +241,6 @@ function Home() {
           </div>
         </section>
       </main>
-
-      <footer id="footer" className="border-t border-border/70" data-testid="site-footer">
-        <div className="mx-auto flex max-w-[1240px] flex-col gap-6 px-5 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-background"><Check className="h-3.5 w-3.5 stroke-[3]" /></span>
-            <span className="text-sm font-extrabold tracking-[-0.04em]">TaskFlow</span>
-          </div>
-          <p className="text-[11px] font-semibold text-muted-foreground">Project management for small teams</p>
-          <button type="button" onClick={openTrial} className="flex items-center gap-2 text-[11px] font-extrabold text-primary hover:text-accent-foreground" data-testid="button-footer-trial">Start Your Free Trial <ArrowUpRight className="h-3.5 w-3.5" /></button>
-        </div>
-      </footer>
 
       {trialOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/45 p-5 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="trial-dialog-title" data-testid="trial-dialog">
