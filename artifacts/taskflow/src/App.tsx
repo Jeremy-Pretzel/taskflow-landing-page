@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
@@ -17,11 +17,10 @@ import {
   LayoutDashboard,
   ListChecks,
   Plus,
-  Sparkles,
   Users,
-  X,
 } from 'lucide-react';
 import {
+  Link,
   Route,
   Switch,
   useLocation,
@@ -31,19 +30,6 @@ import {
 const queryClient = new QueryClient();
 
 function Home() {
-  const [trialOpen, setTrialOpen] = useState(false);
-  const [trialSubmitted, setTrialSubmitted] = useState(false);
-
-  const openTrial = () => {
-    setTrialSubmitted(false);
-    setTrialOpen(true);
-  };
-
-  const submitTrial = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setTrialSubmitted(true);
-  };
-
   return (
     <div className="taskflow-page grain min-h-[100dvh] text-foreground">
       <header
@@ -62,15 +48,14 @@ function Home() {
             </span>
             <span className="text-[17px] font-extrabold tracking-[-0.04em]">TaskFlow</span>
           </a>
-          <button
-            type="button"
-            onClick={openTrial}
+          <Link
+            href="/thank-you"
             className="group inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-[12px] font-bold text-background transition-all hover:-translate-y-0.5 hover:bg-primary/90"
-            data-testid="button-nav-trial"
+            data-testid="link-nav-trial"
           >
             Start Your Free Trial
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </button>
+          </Link>
         </div>
       </header>
 
@@ -90,15 +75,14 @@ function Home() {
                 Plan, organise and track your team's projects from one simple workspace. TaskFlow helps small teams stay organised and get more done.
               </p>
               <div className="reveal reveal-delay-3 mt-9 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-                <button
-                  type="button"
-                  onClick={openTrial}
+                <Link
+                  href="/thank-you"
                   className="group inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-sm font-extrabold text-primary shadow-[0_8px_0_hsl(var(--accent)/.25)] transition-all hover:-translate-y-1 hover:shadow-[0_11px_0_hsl(var(--accent)/.25)] active:translate-y-0 active:shadow-[0_4px_0_hsl(var(--accent)/.25)]"
-                  data-testid="button-hero-trial"
+                  data-testid="link-hero-trial"
                 >
                   Start Your Free Trial
                   <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </button>
+                </Link>
               </div>
               <div className="reveal reveal-delay-4 mt-9 flex items-center gap-3 text-[11px] font-semibold text-muted-foreground" data-testid="text-trial-note">
                 <span className="flex h-5 w-5 items-center justify-center rounded-full bg-secondary/20 text-secondary"><Check className="h-3 w-3 stroke-[3]" /></span>
@@ -230,7 +214,7 @@ function Home() {
               <p className="eyebrow-line mono-font text-[10px] font-bold uppercase tracking-[0.22em] text-secondary">Your next good week</p>
               <h2 id="closing-heading" className="display-font mt-5 text-[3rem] font-semibold leading-[0.94] sm:text-[5rem]" data-testid="text-closing-heading">Put the plan<br />in motion.</h2>
               <p className="mt-6 max-w-[430px] text-sm leading-6 text-background/65 sm:text-base">TaskFlow — Project management for small teams</p>
-              <button type="button" onClick={openTrial} className="group mt-9 inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-sm font-extrabold text-primary transition-all hover:-translate-y-1 hover:shadow-[0_10px_0_hsl(var(--secondary)/.2)]" data-testid="button-closing-trial">Start Your Free Trial <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button>
+              <Link href="/thank-you" className="group mt-9 inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-sm font-extrabold text-primary transition-all hover:-translate-y-1 hover:shadow-[0_10px_0_hsl(var(--secondary)/.2)]" data-testid="link-closing-trial">Start Your Free Trial <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></Link>
             </div>
             <div className="absolute bottom-8 right-8 hidden rotate-[-9deg] rounded-2xl border border-background/15 bg-background/10 p-4 backdrop-blur-md lg:block">
               <div className="mb-3 flex items-center gap-2 text-secondary"><Layers3 className="h-4 w-4" /><span className="mono-font text-[9px] font-bold uppercase tracking-wider">In sync</span></div>
@@ -242,32 +226,40 @@ function Home() {
         </section>
       </main>
 
-      {trialOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/45 p-5 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="trial-dialog-title" data-testid="trial-dialog">
-          <div className="relative w-full max-w-[480px] overflow-hidden rounded-[24px] border border-border bg-card p-6 shadow-2xl sm:p-8">
-            <button type="button" onClick={() => setTrialOpen(false)} className="absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-border hover:text-primary" aria-label="Close free trial dialog" data-testid="button-close-trial"><X className="h-4 w-4" /></button>
-            {!trialSubmitted ? (
-              <>
-                <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-[15px] bg-secondary/15 text-secondary"><Sparkles className="h-5 w-5" /></div>
-                <p className="mono-font text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">A calmer start</p>
-                <h2 id="trial-dialog-title" className="display-font mt-3 pr-7 text-[2.7rem] font-semibold leading-none text-primary">Ready for a clearer week?</h2>
-                <p className="mt-4 text-sm leading-6 text-muted-foreground">Tell us where to send your TaskFlow workspace. No credit card needed.</p>
-                <form onSubmit={submitTrial} className="mt-7 space-y-3">
-                  <label className="block"><span className="mb-1.5 block text-[11px] font-bold text-primary">Work email</span><input required type="email" autoComplete="email" placeholder="you@yourteam.com" className="h-12 w-full rounded-xl border border-border bg-background px-4 text-sm text-primary outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-secondary focus:ring-2 focus:ring-secondary/20" data-testid="input-trial-email" /></label>
-                  <button type="submit" className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-accent text-sm font-extrabold text-primary transition-colors hover:bg-accent/85" data-testid="button-submit-trial">Create my workspace <ArrowUpRight className="h-4 w-4" /></button>
-                </form>
-              </>
-            ) : (
-              <div className="py-8 text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-secondary/15 text-secondary"><Check className="h-7 w-7 stroke-[3]" /></div>
-                <h2 id="trial-dialog-title" className="display-font mt-5 text-[2.7rem] font-semibold leading-none text-primary">You’re on your way.</h2>
-                <p className="mx-auto mt-4 max-w-[300px] text-sm leading-6 text-muted-foreground">Your TaskFlow invitation is ready. We’ll see you in the workspace.</p>
-                <button type="button" onClick={() => setTrialOpen(false)} className="mt-7 rounded-full bg-primary px-5 py-3 text-sm font-extrabold text-background hover:bg-primary/90" data-testid="button-close-success">Back to TaskFlow</button>
-              </div>
-            )}
-          </div>
+    </div>
+  );
+}
+
+function ThankYou() {
+  return (
+    <div className="taskflow-page grain min-h-[100dvh] text-foreground">
+      <header className="site-nav fixed inset-x-0 top-0 z-30 border-b border-border/50" data-testid="thank-you-header">
+        <div className="mx-auto flex h-[76px] max-w-[1240px] items-center px-5 sm:px-8">
+          <Link href="/" className="group flex items-center gap-2.5" data-testid="link-thank-you-logo" aria-label="Return to TaskFlow home">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-[11px] bg-primary text-background shadow-[4px_4px_0_hsl(var(--secondary)/.85)] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[5px_5px_0_hsl(var(--secondary)/.85)]">
+              <Check className="h-[19px] w-[19px] stroke-[3]" />
+            </span>
+            <span className="text-[17px] font-extrabold tracking-[-0.04em]">TaskFlow</span>
+          </Link>
         </div>
-      )}
+      </header>
+
+      <main className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden px-5 pb-16 pt-32 sm:px-8">
+        <div className="pointer-events-none absolute right-[-9rem] top-[8rem] h-[30rem] w-[30rem] rounded-full border border-secondary/20 sm:right-[-5rem]">
+          <div className="absolute inset-8 rounded-full border border-secondary/10" />
+          <div className="absolute inset-20 rounded-full bg-secondary/10 blur-3xl" />
+        </div>
+        <section className="relative w-full max-w-[720px] text-center" aria-labelledby="thank-you-heading">
+          <p className="eyebrow-line mono-font reveal text-[10px] font-bold uppercase tracking-[0.22em] text-secondary" data-testid="text-thank-you-eyebrow">TaskFlow / Free trial confirmed</p>
+          <h1 id="thank-you-heading" className="display-font reveal reveal-delay-1 mt-7 text-[4rem] font-semibold leading-[0.94] text-primary sm:text-[6rem]" data-testid="text-thank-you-heading">You're all set.</h1>
+          <p className="reveal reveal-delay-2 mx-auto mt-7 max-w-[480px] text-[17px] leading-7 text-muted-foreground sm:text-[19px]" data-testid="text-thank-you-registered">Your TaskFlow free trial has been registered.</p>
+          <p className="reveal reveal-delay-3 mx-auto mt-2 max-w-[480px] text-[17px] leading-7 text-muted-foreground sm:text-[19px]" data-testid="text-thank-you-next-step">Start planning your next project with TaskFlow.</p>
+          <Link href="/" className="reveal reveal-delay-4 group mt-10 inline-flex items-center gap-3 rounded-full bg-accent px-6 py-3.5 text-sm font-extrabold text-primary shadow-[0_8px_0_hsl(var(--accent)/.25)] transition-all hover:-translate-y-1 hover:shadow-[0_11px_0_hsl(var(--accent)/.25)] active:translate-y-0 active:shadow-[0_4px_0_hsl(var(--accent)/.25)]" data-testid="link-return-to-taskflow">
+            Return to TaskFlow
+            <ArrowUpRight className="h-4 w-4 rotate-180 transition-transform group-hover:-translate-x-0.5 group-hover:translate-y-0.5" />
+          </Link>
+        </section>
+      </main>
     </div>
   );
 }
@@ -291,6 +283,7 @@ function Router() {
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/thank-you" component={ThankYou} />
         <Route component={NotFound} />
       </Switch>
     </RoutedErrorBoundary>
