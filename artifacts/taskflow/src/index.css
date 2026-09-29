@@ -35,6 +35,9 @@
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
   --color-accent-border: var(--accent-border);
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-success-border: var(--success-border);
 
   --color-destructive: hsl(var(--destructive));
   --color-destructive-foreground: hsl(var(--destructive-foreground));
@@ -104,6 +107,8 @@
   --muted-foreground: 214 12% 42%;
   --accent: 24 88% 58%;
   --accent-foreground: 214 22% 17%;
+  --success: 152 49% 42%;
+  --success-foreground: 210 20% 98%;
   --destructive: 4 66% 53%;
   --destructive-foreground: 210 20% 98%;
   --input: 214 14% 84%;
@@ -225,6 +230,8 @@
   --muted-foreground: 210 12% 72%;
   --accent: 24 88% 58%;
   --accent-foreground: 214 22% 10%;
+  --success: 152 49% 52%;
+  --success-foreground: 214 22% 10%;
   --destructive: 4 66% 53%;
   --destructive-foreground: 210 20% 96%;
   --input: 214 16% 31%;
@@ -495,6 +502,13 @@ body {
 
 .feature-icon {
   transition: transform 300ms cubic-bezier(.22,.8,.25,1);
+}
+
+.features-section {
+  background:
+    linear-gradient(145deg, hsl(215 22% 19%) 0%, hsl(214 20% 14%) 100%);
+  border-top: 1px solid hsl(var(--background) / 0.08);
+  border-bottom: 1px solid hsl(var(--background) / 0.08);
 }
 
 .cta-panel {
