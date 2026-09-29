@@ -1,1 +1,2 @@
-Note: To access the interactive hyperlinks within the campaign case study, including the live TaskFlow landing page, please download and open TaskFlow-Google-Ads-Case-Study.pdf
+Note: To access the interactive hyperlinks within the campaign case study, including the live TaskFlow landing page, please download and open TaskFlow-Google-Ads-Case-Study.pdf 
+TaskFlow-Google-Ads-Case-Study.pdf documents the process of developing the TaskFlow Google Ads Search campaign, including keyword research, campaign setup, landing-page development, and conversion tracking.This can be found within the files. 
